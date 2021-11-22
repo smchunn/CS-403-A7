@@ -139,18 +139,18 @@
 )
 
 (define (p_min emps args)
-    (print_emp (min_helper emps args 1000000 (car emps)))
+    (print_emp (min_helper emps args 1000000)
 )
 
-(define (min_helper emps args min emp)
+(define (min_helper emps args min)
     (if (and (not (null? emps)) (not (null? (car emps))))
         (begin
             (if (and (< (earnings (car emps)) min) (op (cons (earnings (car emps)) args)))
-                (min_helper (cdr emps) args (earnings (car emps)) (car emps))
-                (min_helper (cdr emps) args min emp)
+                (min_helper (cdr emps) args (earnings (car emps)))
+                (min_helper (cdr emps) args min)
             )
         )
-        emp
+        min
     )
 )
 
@@ -226,47 +226,48 @@
 )
 
 (define (op args)
-    
-    (cond
-        ((equal? (car (cdr args)) "eq")
-            (if (= (car args) (car (cdr (cdr args))))
-                (= 1 1)
-                (= 1 0)
+    (let((anOp (car (cdr args))) (aThreshold (car (cdr (cdr args)))) (anAmt (car args)))
+        (cond
+            ((equal? anOp "eq")
+                (if (= anAmt aThreshold)
+                    (= 1 1)
+                    (= 1 0)
+                )
             )
-        )
-        
-        ((equal? (car (cdr args)) "ne")
-            (if (!= (car args) (car (cdr (cdr args))))
-                (= 1 1)
-                (= 1 0)
+            
+            ((equal? anOp "ne")
+                (if (!= anAmt aThreshold)
+                    (= 1 1)
+                    (= 1 0)
+                )
             )
-        )
-        
-        ((equal? (car (cdr args)) "ge")
-            (if (>= (car args) (car (cdr (cdr args))))
-                (= 1 1)
-                (= 1 0)
+            
+            ((equal? anOp "ge")
+                (if (>= anAmt aThreshold)
+                    (= 1 1)
+                    (= 1 0)
+                )
             )
-        )
-        
-        ((equal? (car (cdr args)) "le")
-            (if (<= (car (cdr (cdr args)) (car args)))
-                (= 1 1)
-                (= 1 0)
+            
+            ((equal? anOp "le")
+                (if (<= anAmt aThreshold)
+                    (= 1 1)
+                    (= 1 0)
+                )
             )
-        )
-        
-        ((equal? (car (cdr args)) "gt")
-            (if (> (car args) (car (cdr (cdr args))))
-                (= 1 1)
-                (= 1 0)
+            
+            ((equal?anOp  "gt")
+                (if (> anAmt aThreshold)
+                    (= 1 1)
+                    (= 1 0)
+                )
             )
-        )
-        
-        ((equal? (car (cdr args)) "lt")
-            (if (< (car args) (car (cdr (cdr args))))
-                (= 1 1)
-                (= 1 0)
+            
+            ((equal?anOp  "lt")
+                (if (< anAmt aThreshold)
+                    (= 1 1)
+                    (= 1 0)
+                )
             )
         )
     )
