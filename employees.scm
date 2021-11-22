@@ -141,7 +141,7 @@
 )
 
 (define (p_min emps args)
-    (print_emp (min_helper emps args 1000000))
+    (print_helper emps (list '"eq" (min_helper emps args 10000000)))
 )
 
 (define (min_helper emps args min)
@@ -157,18 +157,18 @@
 )
 
 (define (p_max emps args)
-    (print_emp (max_helper emps args -1 (car emps)))
+    (print_helper emps (list '"eq" (max_helper emps args -1)))
 )
 
-(define (max_helper emps args max emp)
+(define (max_helper emps args max)
     (if (and (not (null? emps)) (not (null? (car emps))))
         (begin
             (if (and (> (earnings (car emps)) max) (op (cons (earnings (car emps)) args)))
-                (max_helper (cdr emps) args (earnings (car emps)) (car emps))
-                (max_helper (cdr emps) args max emp)
+                (max_helper (cdr emps) args (earnings (car emps)))
+                (max_helper (cdr emps) args max)
             )
         )
-        emp
+        max
     )
 )
 
@@ -183,6 +183,7 @@
         (begin
             (if (op (cons (earnings (car emps)) args))
                 (tot_helper (cdr emps) args (+ totval (earnings (car emps))))
+                (tot_helper (cdr emps) args totval)
             )
         )
         totval
@@ -198,11 +199,11 @@
 (define (earnings empl)
     (cond
         ((equal? (car empl) "salaried")
-        (salaried-earnings (cdr empl)))
+        (* 1.0 (salaried-earnings (cdr empl))))
         ((equal? (car empl) "commission")
-        (commission-earnings (cdr empl)))
+        (* 1.0 (commission-earnings (cdr empl))))
         ((equal? (car empl) "hourly")
-        (hourly-earnings (cdr empl)))
+        (* 1.0 (hourly-earnings (cdr empl))))
     )
 )
 
@@ -238,7 +239,7 @@
             )
             
             ((equal? anOp "ne")
-                (if (!= anAmt aThreshold)
+                (if (not (= anAmt aThreshold))
                     (= 1 1)
                     (= 1 0)
                 )
@@ -258,14 +259,14 @@
                 )
             )
             
-            ((equal?anOp  "gt")
+            ((equal? anOp "gt")
                 (if (> anAmt aThreshold)
                     (= 1 1)
                     (= 1 0)
                 )
             )
             
-            ((equal?anOp  "lt")
+            ((equal? anOp "lt")
                 (if (< anAmt aThreshold)
                     (= 1 1)
                     (= 1 0)
