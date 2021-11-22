@@ -139,7 +139,7 @@
 )
 
 (define (p_min emps args)
-    (print_emp (min_helper emps args 1000000)
+    (print_emp (min_helper emps args 1000000))
 )
 
 (define (min_helper emps args min)
