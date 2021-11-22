@@ -97,7 +97,9 @@
 )
 
 (define (p_count emps args)
-    (display "There are " (count_helper emps args) " employees\n")
+    (display "There are ")
+    (display (count_helper emps args))
+    (display " employees\n")
 )
 
 (define (count_helper emps args)
