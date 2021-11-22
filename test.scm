@@ -1,2 +1,2 @@
 (load "employees.scm")
-(perform "employees.dat" "total")
+(perform "DATA4" "max" "lt" 1900)
